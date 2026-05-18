@@ -1,7 +1,7 @@
 "use client";
 
-import CarCard from "@/components/CarCard";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 type Car = {
   _id: string;
@@ -10,111 +10,254 @@ type Car = {
   year: number;
   price: number;
   mileage: number;
-  image?: string;
+  bodyStyle?: string;
+  driveType?: string;
+  exteriorColor?: string;
+  interiorColors?: string[];
+  interiorColor?: string;
+  transmission?: string;
+  engine?: string;
+  fuel?: string;
+  fuelType?: string;
+  seatHeat?: string;
+  vin?: string;
+  description?: string;
+  photos?: string[];
 };
 
-export default function Inventory() {
-  const [cars, setCars] = useState<Car[]>([]);
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("newest");
+export default function CarDetailsPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = React.use(params);
 
-  async function fetchCars() {
-    const res = await fetch("/api/cars");
-    const data = await res.json();
-    setCars(data);
-  }
+  const [car, setCar] = useState<Car | null>(null);
+  const [selectedPhoto, setSelectedPhoto] = useState("");
 
   useEffect(() => {
-    fetchCars();
-  }, []);
+    async function fetchCar() {
+      const res = await fetch(`/api/cars/${id}`);
+      const data = await res.json();
 
-  const filteredCars = cars.filter((car) => {
-    const q = search.toLowerCase();
+      setCar(data);
+      setSelectedPhoto(data.photos?.[0] || "");
+    }
 
+    fetchCar();
+  }, [id]);
+
+  if (!car) {
     return (
-      car.make?.toLowerCase().includes(q) ||
-      car.model?.toLowerCase().includes(q) ||
-      String(car.year).includes(q)
+      <main style={{ padding: 40 }}>
+        <p>Loading vehicle details...</p>
+      </main>
     );
-  });
+  }
 
-  const sortedCars = [...filteredCars].sort((a, b) => {
-    if (sort === "price-low") return a.price - b.price;
-    if (sort === "price-high") return b.price - a.price;
-    if (sort === "mileage-low") return a.mileage - b.mileage;
-    if (sort === "mileage-high") return b.mileage - a.mileage;
-    if (sort === "year-newest") return b.year - a.year;
-    if (sort === "year-oldest") return a.year - b.year;
-
-    return 0;
-  });
+  const interiorColorDisplay = car.interiorColors?.length
+    ? car.interiorColors.join(" / ")
+    : car.interiorColor || "";
 
   return (
-    <main style={{ padding: 40 }}>
-      <h1>Inventory</h1>
+    <main style={{ background: "#f8fafc", minHeight: "100vh", padding: 40 }}>
+      <div style={{ maxWidth: 1150, margin: "0 auto" }}>
+        <Link href="/inventory" style={{ color: "#2563eb", fontWeight: "bold" }}>
+          ← Back to Inventory
+        </Link>
 
-      <div
-        style={{
-          display: "flex",
-          gap: 12,
-          marginBottom: 20,
-        }}
-      >
-        <input
-          placeholder="Search make, model, year..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+        <div
           style={{
-            padding: 10,
-            flex: 1,
-            border: "1px solid #ccc",
-            borderRadius: 6,
-          }}
-        />
-
-        <select
-          value={sort}
-          onChange={(e) => setSort(e.target.value)}
-          style={{
-            padding: 10,
-            border: "1px solid #ccc",
-            borderRadius: 6,
+            marginTop: 24,
+            display: "grid",
+            gridTemplateColumns: "1.4fr 1fr",
+            gap: 30,
           }}
         >
-          <option value="newest">Default</option>
-          <option value="price-low">Price: Low to High</option>
-          <option value="price-high">Price: High to Low</option>
-          <option value="mileage-low">Mileage: Low to High</option>
-          <option value="mileage-high">Mileage: High to Low</option>
-          <option value="year-newest">Year: Newest First</option>
-          <option value="year-oldest">Year: Oldest First</option>
-        </select>
-      </div>
+          <section>
+            {selectedPhoto ? (
+              <img
+                src={selectedPhoto}
+                alt={`${car.year} ${car.make} ${car.model}`}
+                style={{
+                  width: "100%",
+                  height: 430,
+                  objectFit: "cover",
+                  borderRadius: 18,
+                  border: "1px solid #e5e7eb",
+                  background: "white",
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  height: 430,
+                  borderRadius: 18,
+                  border: "1px solid #e5e7eb",
+                  background: "#e5e7eb",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#6b7280",
+                  fontWeight: "bold",
+                }}
+              >
+                No Image Available
+              </div>
+            )}
 
-      {sortedCars.length === 0 && (
-        <p style={{ color: "gray" }}>No cars found.</p>
-      )}
+            {car.photos && car.photos.length > 0 && (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(95px, 1fr))",
+                  gap: 12,
+                  marginTop: 14,
+                }}
+              >
+                {car.photos.map((photo, index) => (
+                  <img
+                    key={index}
+                    src={photo}
+                    alt={`Vehicle photo ${index + 1}`}
+                    onClick={() => setSelectedPhoto(photo)}
+                    style={{
+                      width: "100%",
+                      height: 75,
+                      objectFit: "cover",
+                      borderRadius: 10,
+                      cursor: "pointer",
+                      border:
+                        selectedPhoto === photo
+                          ? "3px solid #2563eb"
+                          : "1px solid #e5e7eb",
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 20,
-        }}
-      >
-        {sortedCars.map((car) => (
-          <CarCard
-            key={car._id}
-            _id={car._id}
-            make={car.make}
-            model={car.model}
-            year={car.year}
-            price={car.price}
-            mileage={car.mileage}
-            image={car.image}
-          />
-        ))}
+          <section
+            style={{
+              background: "white",
+              border: "1px solid #e5e7eb",
+              borderRadius: 18,
+              padding: 28,
+              boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
+              height: "fit-content",
+            }}
+          >
+            <p
+              style={{
+                display: "inline-block",
+                padding: "6px 12px",
+                borderRadius: 999,
+                background: "#dcfce7",
+                color: "#166534",
+                fontWeight: "bold",
+                marginTop: 0,
+              }}
+            >
+              Available
+            </p>
+
+            <h1 style={{ margin: "8px 0", fontSize: 36 }}>
+              {car.year} {car.make} {car.model}
+            </h1>
+
+            <p
+              style={{
+                fontSize: 30,
+                fontWeight: "bold",
+                color: "#111827",
+                margin: "16px 0",
+              }}
+            >
+              ${car.price ? car.price.toLocaleString() : "N/A"}
+            </p>
+
+            <p style={{ color: "#6b7280", fontSize: 18 }}>
+              {car.mileage ? car.mileage.toLocaleString() : "N/A"} miles
+            </p>
+
+            <hr style={{ margin: "24px 0", border: "1px solid #f3f4f6" }} />
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 14,
+              }}
+            >
+              <Spec label="Body Style" value={car.bodyStyle} />
+              <Spec label="Engine" value={car.engine} />
+              <Spec label="Drive Type" value={car.driveType} />
+              <Spec label="Transmission" value={car.transmission} />
+              <Spec label="Exterior Color" value={car.exteriorColor} />
+              <Spec label="Interior Color" value={interiorColorDisplay} />
+              <Spec label="Fuel" value={car.fuel || car.fuelType} />
+              <Spec label="Seat Heat" value={car.seatHeat} />
+            
+            </div>
+
+            <Link href="/contact">
+              <button
+                style={{
+                  marginTop: 28,
+                  width: "100%",
+                  padding: 14,
+                  border: "none",
+                  borderRadius: 12,
+                  background: "#2563eb",
+                  color: "white",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  fontSize: 16,
+                }}
+              >
+                Contact About This Vehicle
+              </button>
+            </Link>
+          </section>
+        </div>
+
+        <section
+          style={{
+            marginTop: 30,
+            background: "white",
+            border: "1px solid #e5e7eb",
+            borderRadius: 18,
+            padding: 28,
+          }}
+        >
+          <h2>Vehicle Description</h2>
+          <p style={{ color: "#4b5563", lineHeight: 1.7 }}>
+            {car.description ||
+              "This vehicle is available now. Contact us for more details, financing options, or to schedule a visit."}
+          </p>
+        </section>
       </div>
     </main>
+  );
+}
+
+function Spec({ label, value }: { label: string; value?: string }) {
+  return (
+    <div
+      style={{
+        background: "#f9fafb",
+        padding: 14,
+        borderRadius: 12,
+        border: "1px solid #f3f4f6",
+      }}
+    >
+      <p style={{ margin: "0 0 4px", color: "#6b7280", fontSize: 13 }}>
+        {label}
+      </p>
+      <p style={{ margin: 0, fontWeight: "bold", color: "#111827" }}>
+        {value || "N/A"}
+      </p>
+    </div>
   );
 }
