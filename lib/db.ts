@@ -6,6 +6,8 @@ if (!MONGODB_URI) {
   throw new Error("MONGODB_URI missing");
 }
 
+const mongoUri = MONGODB_URI;
+
 declare global {
   var mongooseCache: {
     conn: typeof mongoose | null;
@@ -20,7 +22,7 @@ export async function connectDB() {
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI);
+    cached.promise = mongoose.connect(mongoUri);
   }
 
   cached.conn = await cached.promise;

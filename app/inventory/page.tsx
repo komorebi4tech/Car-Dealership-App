@@ -1,4 +1,5 @@
 import CarCard from "@/components/CarCard";
+import type { CSSProperties } from "react";
 
 type Car = {
   _id: string;
@@ -31,85 +32,41 @@ export default async function InventoryPage() {
   const cars = await getCars();
 
   return (
-    <main style={{ background: "#f8fafc", minHeight: "100vh" }}>
+    <main className="page">
       <section
-        style={{
-          padding: "50px 40px",
-          background: "#111827",
-          color: "white",
-        }}
+        className="page-hero"
+        style={{ "--hero-image": "url('/showroom/audi-road.jpg')" } as CSSProperties}
       >
-        <div style={{ maxWidth: 1150, margin: "0 auto" }}>
-          <p style={{ color: "#93c5fd", fontWeight: "bold" }}>
-            VEHICLE INVENTORY
-          </p>
-
-          <h1 style={{ fontSize: 42, margin: "8px 0" }}>
-            Browse Available Cars
-          </h1>
-
-          <p style={{ color: "#d1d5db", maxWidth: 600, lineHeight: 1.6 }}>
-            Explore our current selection of quality used vehicles with clear
-            pricing, mileage details, and photo previews.
+        <div className="container">
+          <p className="eyebrow">Vehicle inventory</p>
+          <h1>Browse Available Cars</h1>
+          <p>
+            Compare current listings with clean photos, mileage, pricing, and
+            direct access to the vehicle details that matter.
           </p>
         </div>
       </section>
 
-      <section style={{ padding: "35px 40px" }}>
-        <div style={{ maxWidth: 1150, margin: "0 auto" }}>
-          <div
-            style={{
-              marginBottom: 24,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: 16,
-            }}
-          >
+      <section className="section-tight">
+        <div className="container">
+          <div className="toolbar">
             <div>
-              <h2 style={{ margin: 0 }}>Current Listings</h2>
-              <p style={{ marginTop: 6, color: "#6b7280" }}>
-                {cars.length} vehicle{cars.length === 1 ? "" : "s"} available
-              </p>
+              <p className="eyebrow">Current listings</p>
+              <h2>{cars.length} vehicle{cars.length === 1 ? "" : "s"}</h2>
             </div>
 
-            <div
-              style={{
-                background: "white",
-                border: "1px solid #e5e7eb",
-                borderRadius: 12,
-                padding: "10px 14px",
-                color: "#374151",
-                fontWeight: "bold",
-              }}
-            >
-              Updated inventory
-            </div>
+            <span className="pill">Updated inventory</span>
           </div>
 
           {cars.length === 0 ? (
-            <div
-              style={{
-                background: "white",
-                padding: 40,
-                borderRadius: 16,
-                border: "1px solid #e5e7eb",
-                textAlign: "center",
-              }}
-            >
+            <div className="empty-state">
               <h3>No cars available right now</h3>
-              <p style={{ color: "#6b7280" }}>
+              <p>
                 Please check back later or contact us for upcoming inventory.
               </p>
             </div>
           ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-                gap: 16,
-              }}
-            >
+            <div className="inventory-grid">
               {cars.map((car) => (
                 <CarCard key={car._id} {...car} />
               ))}

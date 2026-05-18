@@ -1,15 +1,720 @@
 @import "tailwindcss";
 
+:root {
+  --ink: #0d1117;
+  --ink-soft: #1c2430;
+  --paper: #f5f1ea;
+  --paper-bright: #fffbf4;
+  --line: rgba(13, 17, 23, 0.12);
+  --muted: #6f7782;
+  --teal: #18b7bc;
+  --gold: #c78f2f;
+  --red: #c84a3a;
+  --shadow: 0 18px 50px rgba(13, 17, 23, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
-  background: #fafafa;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 a {
+  color: inherit;
   text-decoration: none;
-  color: #111;
 }
 
-a:hover {
-  text-decoration: underline;
+img {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.site-shell {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(255, 251, 244, 0.94), rgba(245, 241, 234, 0.98)),
+    var(--paper);
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px clamp(18px, 4vw, 56px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(13, 17, 23, 0.92);
+  color: var(--paper-bright);
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.brand-mark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--teal), var(--gold));
+  color: var(--ink);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.site-nav a {
+  border-radius: 8px;
+  color: rgba(255, 251, 244, 0.82);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 12px;
+}
+
+.site-nav a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.page {
+  min-height: 100vh;
+}
+
+.section {
+  padding: clamp(42px, 7vw, 86px) clamp(18px, 4vw, 60px);
+}
+
+.section-tight {
+  padding: clamp(28px, 5vw, 58px) clamp(18px, 4vw, 60px);
+}
+
+.container {
+  width: min(1160px, 100%);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero {
+  position: relative;
+  display: grid;
+  min-height: calc(100vh - 68px);
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper-bright);
+}
+
+.hero::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(90deg, rgba(13, 17, 23, 0.88) 0%, rgba(13, 17, 23, 0.52) 46%, rgba(13, 17, 23, 0.18) 100%),
+    linear-gradient(180deg, rgba(13, 17, 23, 0) 68%, rgba(13, 17, 23, 0.82) 100%),
+    url("/showroom/camaro-showroom-wide.jpg") center / cover;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  gap: 28px;
+  width: min(1160px, 100%);
+  margin: 0 auto;
+  padding: clamp(76px, 10vw, 132px) clamp(18px, 4vw, 60px) clamp(74px, 10vw, 118px);
+}
+
+.hero-copy {
+  max-width: 760px;
+}
+
+.hero h1,
+.page-hero h1 {
+  margin: 0;
+  font-size: clamp(44px, 8vw, 96px);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: 0;
+}
+
+.hero p:not(.eyebrow),
+.page-hero p:not(.eyebrow) {
+  max-width: 610px;
+  margin: 20px 0 0;
+  color: rgba(255, 251, 244, 0.78);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.65;
+}
+
+.hero-actions,
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 12px 18px;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button-primary {
+  background: var(--paper-bright);
+  color: var(--ink);
+}
+
+.button-dark {
+  background: var(--ink);
+  color: var(--paper-bright);
+}
+
+.button-accent {
+  background: var(--teal);
+  color: var(--ink);
+}
+
+.button-outline {
+  border-color: rgba(255, 255, 255, 0.42);
+  color: var(--paper-bright);
+}
+
+.button-outline-dark {
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.hero-strip {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  align-self: end;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.hero-stat {
+  padding: 22px clamp(18px, 4vw, 42px);
+  background: rgba(13, 17, 23, 0.58);
+  backdrop-filter: blur(18px);
+}
+
+.hero-stat strong {
+  display: block;
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.hero-stat span {
+  display: block;
+  margin-top: 7px;
+  color: rgba(255, 251, 244, 0.72);
+  font-size: 13px;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+}
+
+.section-title {
+  max-width: 690px;
+}
+
+.section-title h2 {
+  margin: 0;
+  font-size: clamp(32px, 4vw, 54px);
+  line-height: 1.02;
+}
+
+.section-title p {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.image-stack {
+  display: grid;
+  grid-template-columns: 0.86fr 1.14fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.image-stack img,
+.feature-image,
+.contact-image {
+  width: 100%;
+  height: 100%;
+  min-height: 430px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: var(--shadow);
+}
+
+.image-stack img:first-child {
+  margin-top: 34px;
+}
+
+.feature-grid,
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.feature-card,
+.car-card,
+.panel,
+.empty-state,
+.spec-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 251, 244, 0.78);
+  box-shadow: 0 12px 32px rgba(13, 17, 23, 0.08);
+}
+
+.feature-card {
+  padding: 24px;
+}
+
+.feature-card h3,
+.panel h2,
+.empty-state h3 {
+  margin: 0 0 10px;
+}
+
+.feature-card p,
+.panel p,
+.empty-state p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.feature-card .number {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  margin-bottom: 22px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--paper-bright);
+  font-weight: 900;
+}
+
+.editorial-band {
+  background: var(--ink);
+  color: var(--paper-bright);
+}
+
+.editorial-band .section-title p,
+.editorial-band .feature-card p {
+  color: rgba(255, 251, 244, 0.7);
+}
+
+.editorial-band .feature-card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+.cta-band {
+  background:
+    linear-gradient(90deg, rgba(13, 17, 23, 0.86), rgba(13, 17, 23, 0.46)),
+    url("/showroom/yellow-detail.jpg") center / cover;
+  color: var(--paper-bright);
+}
+
+.cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+}
+
+.page-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper-bright);
+}
+
+.page-hero::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(90deg, rgba(13, 17, 23, 0.88), rgba(13, 17, 23, 0.4)),
+    var(--hero-image, url("/showroom/audi-road.jpg")) center / cover;
+}
+
+.page-hero .container {
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(68px, 10vw, 120px);
+  padding-bottom: clamp(58px, 8vw, 96px);
+}
+
+.toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.toolbar h2 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 42px);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper-bright);
+  color: var(--ink-soft);
+  font-weight: 800;
+  padding: 9px 14px;
+}
+
+.inventory-grid {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.car-card {
+  overflow: hidden;
+  background: var(--paper-bright);
+}
+
+.car-card-media {
+  position: relative;
+  height: 218px;
+  overflow: hidden;
+  background: var(--ink-soft);
+}
+
+.car-card-media img,
+.detail-hero-image,
+.thumb-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.car-card-badge {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  border-radius: 999px;
+  background: rgba(255, 251, 244, 0.9);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 7px 10px;
+}
+
+.car-card-body {
+  padding: 18px;
+}
+
+.car-card h2 {
+  margin: 0 0 14px;
+  font-size: 22px;
+  line-height: 1.12;
+}
+
+.car-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: var(--muted);
+}
+
+.car-price {
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.empty-state {
+  padding: 42px;
+  text-align: center;
+}
+
+.detail-layout,
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.38fr) minmax(320px, 0.72fr);
+  gap: clamp(22px, 4vw, 38px);
+  align-items: start;
+}
+
+.back-link {
+  display: inline-flex;
+  margin-bottom: 20px;
+  color: var(--ink-soft);
+  font-weight: 900;
+}
+
+.detail-hero-image {
+  min-height: 470px;
+  border-radius: 8px;
+  background: var(--ink-soft);
+}
+
+.thumb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(98px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.thumb-button {
+  height: 76px;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.thumb-button.is-active {
+  border-color: var(--teal);
+}
+
+.panel {
+  padding: clamp(22px, 4vw, 30px);
+}
+
+.detail-title {
+  margin: 12px 0 10px;
+  font-size: clamp(34px, 4vw, 50px);
+  line-height: 1;
+}
+
+.detail-price {
+  margin: 18px 0 8px;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.spec-card {
+  padding: 14px;
+  box-shadow: none;
+}
+
+.spec-card span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.spec-card strong {
+  display: block;
+}
+
+.description-panel {
+  margin-top: 22px;
+}
+
+.contact-image {
+  min-height: 560px;
+}
+
+.contact-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.contact-item {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.contact-item span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.contact-item strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 18px;
+}
+
+.admin-page {
+  min-height: 100vh;
+  padding: clamp(24px, 4vw, 48px);
+  background: var(--paper);
+}
+
+.admin-header {
+  width: min(1120px, 100%);
+  margin: 0 auto 24px;
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: clamp(34px, 5vw, 58px);
+}
+
+.admin-header p {
+  max-width: 620px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.admin-form {
+  width: min(860px, 100%);
+  margin: 0 auto 40px;
+}
+
+.admin-list {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .site-header,
+  .cta-inner,
+  .toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .site-nav {
+    justify-content: flex-start;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .hero::before {
+    background:
+      linear-gradient(180deg, rgba(13, 17, 23, 0.76), rgba(13, 17, 23, 0.68)),
+      url("/showroom/camaro-showroom.jpg") center / cover;
+  }
+
+  .hero-strip,
+  .split,
+  .feature-grid,
+  .detail-layout,
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .image-stack {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .image-stack img,
+  .feature-image,
+  .contact-image,
+  .detail-hero-image {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-actions,
+  .row-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .image-stack,
+  .spec-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .image-stack img:first-child {
+    margin-top: 0;
+  }
+
+  .toolbar {
+    margin-bottom: 18px;
+  }
 }

@@ -1,152 +1,147 @@
 import Link from "next/link";
 
+const trustPoints = [
+  {
+    title: "Curated Inventory",
+    text: "A tighter selection of vehicles, reviewed for condition, mileage, and everyday value before they hit the floor.",
+  },
+  {
+    title: "Clear Numbers",
+    text: "Pricing, mileage, vehicle details, and next steps are presented plainly so shoppers can move with confidence.",
+  },
+  {
+    title: "Simple Visit",
+    text: "Browse online, ask about a specific vehicle, then schedule a focused visit without the back-and-forth runaround.",
+  },
+];
+
+const services = [
+  ["Quality review", "Vehicle basics checked before listing"],
+  ["Photo-first listings", "Real previews for fast comparison"],
+  ["Helpful support", "Questions answered before you visit"],
+];
+
 export default function Home() {
   return (
-    <main style={{ background: "#f8fafc", minHeight: "100vh" }}>
-      {/* HERO */}
-      <section
-        style={{
-          padding: "80px 60px",
-          background: "linear-gradient(135deg, #111827, #1f2937)",
-          color: "white",
-        }}
-      >
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <p style={{ color: "#93c5fd", fontWeight: "bold" }}>
-            PREMIUM USED VEHICLES
-          </p>
-
-          <h1
-            style={{
-              fontSize: 56,
-              lineHeight: 1.1,
-              maxWidth: 720,
-              margin: "12px 0",
-            }}
-          >
-            Find the Right Car at the Right Price
-          </h1>
-
-          <p
-            style={{
-              maxWidth: 560,
-              color: "#d1d5db",
-              fontSize: 18,
-              lineHeight: 1.6,
-            }}
-          >
-            Browse reliable, high-quality used vehicles with transparent pricing,
-            detailed listings, and a simple buying experience.
-          </p>
-
-          <div style={{ display: "flex", gap: 12, marginTop: 28 }}>
-            <Link href="/inventory">
-              <button
-                style={{
-                  padding: "14px 22px",
-                  border: "none",
-                  borderRadius: 10,
-                  background: "#2563eb",
-                  color: "white",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                }}
-              >
-                Browse Inventory
-              </button>
-            </Link>
-
-            <Link href="/contact">
-              <button
-                style={{
-                  padding: "14px 22px",
-                  border: "1px solid #9ca3af",
-                  borderRadius: 10,
-                  background: "transparent",
-                  color: "white",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                }}
-              >
-                Contact Us
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* TRUST CARDS */}
-      <section style={{ padding: "50px 60px" }}>
-        <div
-          style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: 20,
-          }}
-        >
-          {[
-            ["Quality Checked", "Every vehicle is reviewed before listing."],
-            ["Transparent Pricing", "Clear prices with no confusing surprises."],
-            ["Easy Financing", "Flexible options for different budgets."],
-            ["Fast Support", "Contact us quickly about any vehicle."],
-          ].map(([title, text]) => (
-            <div
-              key={title}
-              style={{
-                background: "white",
-                padding: 24,
-                borderRadius: 16,
-                boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
-                border: "1px solid #e5e7eb",
-              }}
-            >
-              <h3 style={{ marginTop: 0 }}>{title}</h3>
-              <p style={{ color: "#6b7280", lineHeight: 1.5 }}>{text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section style={{ padding: "20px 60px 70px" }}>
-        <div
-          style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-            background: "white",
-            borderRadius: 18,
-            padding: 36,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 20,
-            border: "1px solid #e5e7eb",
-          }}
-        >
-          <div>
-            <h2 style={{ marginTop: 0 }}>Ready to explore available cars?</h2>
-            <p style={{ color: "#6b7280", marginBottom: 0 }}>
-              View our current inventory and find a vehicle that fits your needs.
+    <main className="page">
+      <section className="hero">
+        <div className="hero-content">
+          <div className="hero-copy">
+            <p className="eyebrow">Premium used vehicles</p>
+            <h1>AutoDeal</h1>
+            <p>
+              A cleaner way to shop quality used cars: sharp inventory, clear
+              details, and a modern buying experience built around the vehicle.
             </p>
           </div>
 
-          <Link href="/inventory">
-            <button
-              style={{
-                padding: "12px 18px",
-                border: "none",
-                borderRadius: 10,
-                background: "#111827",
-                color: "white",
-                fontWeight: "bold",
-                cursor: "pointer",
-                whiteSpace: "nowrap",
-              }}
-            >
-              View Inventory
-            </button>
+          <div className="hero-actions">
+            <Link href="/inventory" className="button button-primary">
+              Browse Inventory
+            </Link>
+            <Link href="/contact" className="button button-outline">
+              Contact Us
+            </Link>
+          </div>
+        </div>
+
+        <div className="hero-strip" aria-label="AutoDeal highlights">
+          <div className="hero-stat">
+            <strong>01</strong>
+            <span>Browse current listings</span>
+          </div>
+          <div className="hero-stat">
+            <strong>02</strong>
+            <span>Review details and photos</span>
+          </div>
+          <div className="hero-stat">
+            <strong>03</strong>
+            <span>Ask about the right vehicle</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container split">
+          <div className="section-title">
+            <p className="eyebrow">The showroom feel</p>
+            <h2>Performance energy, practical shopping.</h2>
+            <p>
+              From classics to performance cars, the experience is built to
+              feel direct, polished, and easy to scan before a shopper ever
+              walks in.
+            </p>
+          </div>
+
+          <div className="image-stack" aria-hidden="true">
+            <img src="/showroom/classic-front.jpg" alt="" />
+            <img src="/showroom/pagani-rear.jpg" alt="" />
+          </div>
+        </div>
+      </section>
+
+      <section className="section editorial-band">
+        <div className="container">
+          <div className="section-title">
+            <p className="eyebrow">Why shoppers stay</p>
+            <h2>Fast to scan. Easy to trust.</h2>
+            <p>
+              Buyers compare quickly. AutoDeal keeps photos, pricing, mileage,
+              and contact actions close together so the next step is clear.
+            </p>
+          </div>
+
+          <div className="feature-grid" style={{ marginTop: 28 }}>
+            {trustPoints.map((point, index) => (
+              <article className="feature-card" key={point.title}>
+                <span className="number">{index + 1}</span>
+                <h3>{point.title}</h3>
+                <p>{point.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container split">
+          <img
+            className="feature-image"
+            src="/showroom/manual-interior.jpg"
+            alt="Manual shifter inside a vehicle"
+          />
+
+          <div>
+            <div className="section-title">
+              <p className="eyebrow">Built for decisions</p>
+              <h2>Details that feel premium without hiding the basics.</h2>
+            </div>
+
+            <div className="feature-grid" style={{ marginTop: 28 }}>
+              {services.map(([title, text]) => (
+                <article className="feature-card" key={title}>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section cta-band">
+        <div className="container cta-inner">
+          <div className="section-title">
+            <p className="eyebrow">Ready when they are</p>
+            <h2>Make the inventory the next click.</h2>
+            <p>
+              Browse available vehicles, review the details, and reach out when
+              the right car catches your eye.
+            </p>
+          </div>
+
+          <Link href="/inventory" className="button button-primary">
+            View Inventory
           </Link>
         </div>
       </section>

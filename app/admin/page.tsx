@@ -79,7 +79,19 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
-    fetchCars();
+    let ignore = false;
+
+    fetch("/api/cars")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!ignore) {
+          setCars(data);
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   function resetForm() {
@@ -200,18 +212,26 @@ export default function AdminPage() {
   }
 
   return (
-    <main style={{ padding: 40, background: "#f9fafb", minHeight: "100vh" }}>
-      <h1>Admin Inventory</h1>
+    <main className="admin-page">
+      <header className="admin-header">
+        <p className="eyebrow">Inventory control</p>
+        <h1>Admin Inventory</h1>
+        <p>
+          Add, update, and manage the vehicle listings that appear across the
+          public inventory pages.
+        </p>
+      </header>
 
       <form
+        className="admin-form"
         onSubmit={handleSubmit}
         style={{
-          background: "#fff",
+          background: "var(--paper-bright)",
           padding: 24,
-          borderRadius: 14,
+          borderRadius: 8,
           marginBottom: 40,
-          boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-          maxWidth: 760,
+          border: "1px solid var(--line)",
+          boxShadow: "var(--shadow)",
         }}
       >
         <h2>{editingId ? "Edit Car" : "Add New Car"}</h2>
@@ -521,18 +541,20 @@ export default function AdminPage() {
         )}
       </form>
 
-      <h2>Current Cars</h2>
+      <section className="admin-list">
+        <p className="eyebrow">Live listings</p>
+        <h2>Current Cars</h2>
 
       <div style={{ display: "grid", gap: 16 }}>
         {cars.map((car) => (
           <div
             key={car._id}
             style={{
-              border: "1px solid #e5e7eb",
+              border: "1px solid var(--line)",
               padding: 20,
-              borderRadius: 14,
-              background: "#fff",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+              borderRadius: 8,
+              background: "var(--paper-bright)",
+              boxShadow: "0 12px 32px rgba(13,17,23,0.08)",
               display: "flex",
               gap: 20,
               justifyContent: "space-between",
@@ -567,8 +589,8 @@ export default function AdminPage() {
                 </p>
 
                 <p style={{ margin: 0, color: "#6b7280", fontSize: 14 }}>
-                  {car.bodyStyle || "Body Style N/A"} •{" "}
-                  {car.driveType || "Drive Type N/A"} •{" "}
+                  {car.bodyStyle || "Body Style N/A"} |{" "}
+                  {car.driveType || "Drive Type N/A"} |{" "}
                   {car.transmission || "Transmission N/A"}
                 </p>
 
@@ -577,7 +599,7 @@ export default function AdminPage() {
                   {car.interiorColors?.length
                     ? car.interiorColors.join(" / ")
                     : car.interiorColor || "N/A"}{" "}
-                  • Exterior: {car.exteriorColor || "N/A"}
+                  | Exterior: {car.exteriorColor || "N/A"}
                 </p>
               </div>
             </div>
@@ -616,6 +638,7 @@ export default function AdminPage() {
           </div>
         ))}
       </div>
+      </section>
     </main>
   );
 }
