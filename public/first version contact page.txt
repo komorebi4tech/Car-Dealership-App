@@ -1,0 +1,256 @@
+"use client";
+
+import Link from "next/link";
+import type { CSSProperties, FormEvent } from "react";
+import { useState } from "react";
+
+const fieldStyle: CSSProperties = {
+  width: "100%",
+  border: "1px solid var(--line)",
+  borderRadius: 8,
+  background: "rgba(255, 251, 244, 0.92)",
+  color: "var(--ink)",
+  padding: "13px 14px",
+  outline: "none",
+};
+
+const labelStyle: CSSProperties = {
+  display: "grid",
+  gap: 8,
+  color: "var(--ink-soft)",
+  fontSize: 14,
+  fontWeight: 800,
+};
+
+export default function Contact() {
+  const [sent, setSent] = useState(false);
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const name = String(formData.get("name") || "");
+    const email = String(formData.get("email") || "");
+    const phone = String(formData.get("phone") || "");
+    const details = String(formData.get("details") || "");
+    const callPreference =
+      formData.get("callPreference") === "yes" ? "Yes, call me" : "No, email me";
+
+    const body = [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Phone: ${phone || "Not provided"}`,
+      `Can we call?: ${callPreference}`,
+      "",
+      "Details:",
+      details,
+    ].join("\n");
+
+    setSent(true);
+    event.currentTarget.reset();
+    window.location.href = `mailto:info@yourdealership.com?subject=${encodeURIComponent(
+      "AutoDeal Contact Request"
+    )}&body=${encodeURIComponent(body)}`;
+  }
+
+  return (
+    <main className="page">
+      <section
+        className="page-hero"
+        style={
+          {
+            "--hero-image": "url('/showroom/audi-night.jpg')",
+          } as CSSProperties
+        }
+      >
+        <div className="container">
+          <p className="eyebrow">Contact AutoDeal</p>
+          <h1>Tell us what you need.</h1>
+          <p>
+            Ask about availability, schedule a visit, or send the details for
+            the vehicle you want us to help with.
+          </p>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container contact-layout">
+          <form
+            className="panel"
+            onSubmit={handleSubmit}
+            style={{
+              display: "grid",
+              gap: 18,
+              background:
+                "linear-gradient(180deg, rgba(255,251,244,0.98), rgba(255,251,244,0.88))",
+            }}
+          >
+            <div>
+              <p className="eyebrow">Send a message</p>
+              <h2 style={{ margin: "0 0 10px", fontSize: "clamp(30px, 4vw, 46px)" }}>
+                CONTACT US
+              </h2>
+              <p style={{ color: "var(--muted)", lineHeight: 1.6, margin: 0 }}>
+                Share your contact info and the question you want answered.
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                gap: 14,
+              }}
+            >
+              <label style={labelStyle}>
+                Name
+                <input
+                  name="name"
+                  placeholder="Your name"
+                  required
+                  style={fieldStyle}
+                  type="text"
+                />
+              </label>
+
+              <label style={labelStyle}>
+                Email
+                <input
+                  name="email"
+                  placeholder="you@example.com"
+                  required
+                  style={fieldStyle}
+                  type="email"
+                />
+              </label>
+
+              <label style={labelStyle}>
+                Phone Number
+                <input
+                  name="phone"
+                  placeholder="(555) 000-0000"
+                  style={fieldStyle}
+                  type="tel"
+                />
+              </label>
+            </div>
+
+            <fieldset
+              style={{
+                border: "1px solid var(--line)",
+                borderRadius: 8,
+                display: "grid",
+                gap: 12,
+                margin: 0,
+                padding: 16,
+              }}
+            >
+              <legend
+                style={{
+                  color: "var(--ink-soft)",
+                  fontSize: 14,
+                  fontWeight: 900,
+                  padding: "0 8px",
+                }}
+              >
+                Can we call you?
+              </legend>
+
+              <div className="row-actions">
+                <label
+                  style={{
+                    alignItems: "center",
+                    display: "inline-flex",
+                    gap: 8,
+                    fontWeight: 800,
+                  }}
+                >
+                  <input name="callPreference" type="radio" value="yes" />
+                  Yes, call me
+                </label>
+
+                <label
+                  style={{
+                    alignItems: "center",
+                    display: "inline-flex",
+                    gap: 8,
+                    fontWeight: 800,
+                  }}
+                >
+                  <input
+                    defaultChecked
+                    name="callPreference"
+                    type="radio"
+                    value="no"
+                  />
+                  No, email me
+                </label>
+              </div>
+            </fieldset>
+
+            <label style={labelStyle}>
+              Details
+              <textarea
+                name="details"
+                placeholder="Tell us which vehicle you are interested in, your questions, or the best time to reach you."
+                required
+                rows={6}
+                style={{ ...fieldStyle, resize: "vertical" }}
+              />
+            </label>
+
+            {sent && (
+              <p
+                style={{
+                  background: "rgba(24, 183, 188, 0.12)",
+                  border: "1px solid rgba(24, 183, 188, 0.34)",
+                  borderRadius: 8,
+                  color: "var(--ink)",
+                  fontWeight: 800,
+                  margin: 0,
+                  padding: "12px 14px",
+                }}
+              >
+                Opening your email app with the message details.
+              </p>
+            )}
+
+            <button className="button button-dark" type="submit">
+              Send Message
+            </button>
+          </form>
+
+          <aside style={{ display: "grid", gap: 16 }}>
+            <img
+              className="contact-image"
+              src="/showroom/yellow-detail.jpg"
+              alt="Yellow vehicle detail"
+              style={{ minHeight: 360 }}
+            />
+
+            <div className="panel">
+              <p className="eyebrow">Direct contact</p>
+              <h2 style={{ marginTop: 0 }}>We will help you take the next step.</h2>
+              <p>
+                Include the vehicle year, make, and model if you already found a
+                listing.
+              </p>
+
+              <div className="contact-list">
+                <div className="contact-item">
+                  <span>Email</span>
+                  <strong>info@yourdealership.com</strong>
+                </div>
+                <div className="contact-item">
+                  <span>Inventory</span>
+                  <strong>
+                    <Link href="/inventory">View available cars</Link>
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  );
+}
