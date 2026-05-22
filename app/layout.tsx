@@ -2,7 +2,7 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata = {
-  title: "AutoDeal | Premium Used Vehicles",
+  title: "Cambio Automotive | Premium Used Vehicles",
   description:
     "Browse quality used vehicles with transparent pricing and a simple buying experience.",
 };
@@ -17,9 +17,9 @@ export default function RootLayout({
       <body>
         <div className="site-shell">
           <header className="site-header">
-            <Link href="/" className="brand" aria-label="AutoDeal home">
+            <Link href="/" className="brand" aria-label="Cambio Automotive home">
               <span className="brand-mark">A</span>
-              <span>AutoDeal</span>
+              <span>Cambio Automotive</span>
             </Link>
 
             <nav className="site-nav" aria-label="Primary navigation">

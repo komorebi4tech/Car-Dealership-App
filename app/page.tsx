@@ -28,7 +28,7 @@ export default function Home() {
         <div className="hero-content">
           <div className="hero-copy">
             <p className="eyebrow">Premium used vehicles</p>
-            <h1>AutoDeal</h1>
+            <h1>CAMBIO AUTOMOTIVE</h1>
             <p>
               A cleaner way to shop quality used cars: sharp inventory, clear
               details, and a modern buying experience built around the vehicle.
@@ -45,7 +45,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="hero-strip" aria-label="AutoDeal highlights">
+        <div className="hero-strip" aria-label="CambioAutomotive highlights">
           <div className="hero-stat">
             <strong>01</strong>
             <span>Browse current listings</span>
@@ -86,7 +86,7 @@ export default function Home() {
             <p className="eyebrow">Why shoppers stay</p>
             <h2>Fast to scan. Easy to trust.</h2>
             <p>
-              Buyers compare quickly. AutoDeal keeps photos, pricing, mileage,
+              Buyers compare quickly. Cambio Automotive keeps photos, pricing, mileage,
               and contact actions close together so the next step is clear.
             </p>
           </div>
